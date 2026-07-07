@@ -16,10 +16,15 @@ jobs:
       - name: Deploy Website
         run: |
           sudo rsync -av --delete \
-            --exclude=".git" \
-            --exclude=".github" \
+            --exclude='.git' \
+            --exclude='.github' \
             ./ /var/www/html/
 
+      - name: Test Nginx Configuration
+        run: sudo nginx -t
+
       - name: Restart Nginx
-        run: |
-          sudo systemctl restart nginx
+        run: sudo systemctl restart nginx
+
+      - name: Check Nginx Status
+        run: sudo systemctl status nginx --no-pager
